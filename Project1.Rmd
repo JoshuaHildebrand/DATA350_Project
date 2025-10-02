@@ -1,0 +1,15 @@
+---
+title: "Project1"
+output: html_document
+date: "2025-10-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+```{r}
+library(NHANES)
+head(NHANESraw)
+```
+
