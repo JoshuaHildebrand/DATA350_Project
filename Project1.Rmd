@@ -13,4 +13,78 @@ library(NHANES)
 head(NHANESraw)
 ```
 # Draft Set of Questions
-1. 
+# 1. How does AlcoholDay compare between Married and NeverMarried (Or any two MaritalStatus groups) across Race1
+
+```{r}
+library(NHANES)
+library(dplyr)
+library(ggplot2)
+names(NHANES)
+head(NHANES)
+
+NHANES |>
+  distinct(SurveyYr)
+# Here are some graphs I made for the first question - I tested out different options for Race categories (Race1 compared to Race3) as well as the variable AlcoholYear
+# I decided to filter all SurveyYr variables to 2011_12 because the Race3 variable does not have the year 2009_10
+# Will test out other relationship factors, like
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholDay across Race1
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "NeverMarried") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholDay), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race1) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholYear across Race1
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "NeverMarried") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholDay), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race3) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholDay across Race3
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "NeverMarried") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholYear), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race1) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholYear across Race3
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "NeverMarried") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholYear), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race3) 
+scale_fill_manual(values = c("red", "blue"))
+```
+
+# This is still Question 1, except I filtered for the variables "Married" and "Divorced" - they seem to have no divorce data for Asian survey participants, though.
+```{r}
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholDay across Race1
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "Divorced") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholDay), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race1) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholYear across Race1
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "Divorced") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholDay), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race3) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholDay across Race3
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "Divorced") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholYear), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race1) 
+scale_fill_manual(values = c("red", "blue"))
+
+# This is a KDE graph for the relationship of MaritalStatus and AlcoholYear across Race3
+ggplot(subset(NHANES, MaritalStatus %in% c("Married", "Divorced") & SurveyYr =="2011_12"),
+aes(x = log(AlcoholYear), fill = MaritalStatus)) +
+geom_density(alpha = 0.3) +
+facet_wrap(~Race3) 
+scale_fill_manual(values = c("red", "blue"))
+```
+
