@@ -1,0 +1,92 @@
+---
+title: "josh_graphs"
+output: html_document
+---
+
+```{r}
+library(NHANES)
+library(ggcorrplot)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r} 
+head(NHANESraw)
+```
+
+
+# Testerone Variable
+## Testosterone by Gender
+
+```{r}
+NHANES_t <- NHANESraw |>
+  select('Testosterone', 'Age', 'Gender','BMI_WHO')
+
+```
+## Testosterone by BMICatUnder20yrs for Males
+
+```{r}
+NHANES_t |>
+  filter(Gender == 'male') |>
+  drop_na(BMI_WHO)|>
+  ggplot(aes(x = Age, y = Testosterone)) +
+  geom_smooth(aes(col = BMI_WHO))
+```
+
+
+
+
+
+```{r}
+NHANES_t2 <- NHANES_t |>
+  filter(Gender == 'male')|>
+  drop_na(BMI_WHO, Testosterone)|>
+  mutate(age_group = case_when(
+    Age <= 20 ~ '06-20',
+    Age <= 40 ~ '21-40',
+    Age <= 60 ~ '41-60',
+    Age <= 80 ~ '61-80'
+  ))|>
+  group_by(age_group, BMI_WHO) |> 
+  summarize(medT = median(Testosterone), Q1 = quantile(Testosterone, 0.25), Q3 = quantile(Testosterone, 0.75))
+
+ggplot(NHANES_t2, aes(x = age_group, y = medT))+
+  geom_bar(aes(fill = BMI_WHO), stat = 'identity', position = 'dodge') + 
+  geom_errorbar(aes(ymin = Q1, ymax = Q3, group = BMI_WHO), position = position_dodge(0.9))+
+  geom_point(aes(group = BMI_WHO), position = position_dodge(0.9))
+
+
+```
+
+# Income Across Education, Age over 20
+
+```{r}
+NHANES_I <- NHANESraw |>
+  select('HHIncomeMid', 'Education', 'Age', 'HHIncome')|>
+  drop_na('Education')
+head(NHANES_I)
+
+ggplot(NHANES_I, aes(x = HHIncomeMid)) +
+  geom_density(alpha = 0.3, aes(fill = Education))
+```
+
+```{r}
+NHANES|>
+  group_by(Education)|>
+  summarize(
+    meanI = mean(HHIncomeMid, na.rm = T),
+    UCI = meanI + 1.96*sd(HHIncomeMid, na.rm = T),
+    LCI = meanI - 1.96*sd(HHIncomeMid, na.rm = T),
+  )
+
+
+#p <- ggplot(NHANES_t2, aes(x = age_group, y = meanT))+
+  #geom_bar(aes(fill = BMICatUnder20yrs), stat = 'identity', position =  'dodge')+ 
+  #geom_errorbar(aes(ymin = LCI, ymax = UCI, group = BMICatUnder20yrs), 
+    #            position_dodge(0.9),
+      #          width = 0.5)
+
+#p
+```
+
