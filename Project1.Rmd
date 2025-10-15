@@ -159,48 +159,28 @@ nhanes_clean <- NHANESraw |>
   filter(SurveyYr == "2011_12", Age >= 18) |> 
   select(ID, Race1, Race3, Poverty, BMI, BPSysAve, BPDiaAve, TotChol, Age, Gender) |> 
   na.omit()
-nhanes_clean
 ```
 # Poverty vs BMI by Race
 ```{r}
-# Race1 distribution
-ggplot(nhanes_clean, aes(x = Poverty, y = BMI, color = Race1)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = TRUE) +
-  facet_wrap(~ Race1) +
-  labs(
-    title = "Relationship Between Poverty Ratio and BMI Across Race1",
-    x = "Poverty Ratio",
-    y = "Body Mass Index (BMI)"
-  ) 
 # Race3 distribution
 ggplot(nhanes_clean, aes(x = Poverty, y = BMI, color = Race3)) +
   geom_point(alpha = 0.5) +
   geom_smooth(method = "lm", se = TRUE) +
   facet_wrap(~ Race3) +
   labs(
-    title = "Relationship Between Poverty Ratio and BMI Across Race3",
+    title = "Relationship Between Poverty Ratio and BMI Across Race",
     x = "Poverty Ratio",
     y = "Body Mass Index (BMI)"
   ) 
 ```
 # Poverty vs Cholesterol by Race
 ```{r}
-# Race1 distribution
-ggplot(nhanes_clean, aes(x = Race1, y = TotChol, color = Race1)) +
-  geom_jitter(alpha = 0.3, width = 0.2) +
-  geom_boxplot(alpha = 0.4, outlier.shape = NA) +
-  labs(
-    title = "Total Cholesterol by Race1 and Poverty Ratio Groups",
-    x = "Race1 Category",
-    y = "Total Cholesterol (mmol/L)"
-  )
 # Race3 distribution
 ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
   geom_jitter(alpha = 0.3, width = 0.2) +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
   labs(
-    title = "Total Cholesterol by Race3 and Poverty Ratio Groups",
+    title = "Total Cholesterol by Race and Poverty Ratio Groups",
     x = "Race3 Category",
     y = "Total Cholesterol (mmol/L)"
   )
@@ -216,7 +196,6 @@ nhanes_clean2 <- NHANESraw |>
     SmokeAgeGroup = cut(SmokeAge, breaks=c(0,14,17,20,100), labels=c("<15","15-17","18-20","21+")),
     MarijAgeGroup = cut(AgeRegMarij, breaks=c(0,14,17,20,100), labels=c("<15","15-17","18-20","21+"),           include.lowest = TRUE)
   )
-nhanes_clean2
 
 # Smoking vs Education
 ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
