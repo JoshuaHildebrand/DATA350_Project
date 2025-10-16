@@ -181,7 +181,7 @@ ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
   labs(
     title = "Total Cholesterol by Race and Poverty Ratio Groups",
-    x = "Race3 Category",
+    x = "Race Category",
     y = "Total Cholesterol (mmol/L)"
   )
 ```
@@ -200,12 +200,14 @@ nhanes_clean2 <- NHANESraw |>
 # Smoking vs Education
 ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
-  labs(title="Age Participant Started Smoking Cigarettes Regularly by Education Level",
+  labs(title="Age Started Smoking by Education and Gender",
        x="Education Level", y="Number of Participants", fill="Age Group") + coord_flip()
+```
 
 # Marijuana vs Education faceted by Gender
+```{r}
 ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
-  labs(title="Age Participant Started Smoking Marijuana Regularly by Education Level",
+  labs(title="Age Started Marijuana Use by Education and Gender",
        x="Education Level", y="Number of Participants", fill="Age Group") + coord_flip()
 ```
