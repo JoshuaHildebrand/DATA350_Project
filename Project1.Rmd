@@ -163,9 +163,9 @@ nhanes_clean <- NHANESraw |>
 # Poverty vs BMI by Race
 ```{r}
 # Race3 distribution
-ggplot(nhanes_clean, aes(x = Poverty, y = BMI, color = Race3)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = TRUE) +
+ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
+  geom_point(alpha = 0.5, aes(color = Race3), size = 0.6) +
+  geom_smooth(se = TRUE, color = "black") +
   facet_wrap(~ Race3) +
   labs(
     title = "Relationship Between Poverty Ratio and BMI Across Race",
@@ -177,7 +177,7 @@ ggplot(nhanes_clean, aes(x = Poverty, y = BMI, color = Race3)) +
 ```{r}
 # Race3 distribution
 ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
-  geom_jitter(alpha = 0.3, width = 0.2) +
+  geom_jitter(alpha = 0.3, width = 0.2, size = 0.6) +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
   labs(
     title = "Total Cholesterol by Race and Poverty Ratio Groups",
@@ -199,13 +199,13 @@ nhanes_clean2 <- NHANESraw |>
 
 # Smoking vs Education
 ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
-  geom_bar(position="stack") + facet_wrap(~Gender) +
+  geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Participant Started Smoking Cigarettes Regularly by Education Level",
        x="Education Level", y="Number of Participants", fill="Age Group") + coord_flip()
 
 # Marijuana vs Education faceted by Gender
 ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
-  geom_bar(position="stack") + facet_wrap(~Gender) +
+  geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Participant Started Smoking Marijuana Regularly by Education Level",
        x="Education Level", y="Number of Participants", fill="Age Group") + coord_flip()
 ```
