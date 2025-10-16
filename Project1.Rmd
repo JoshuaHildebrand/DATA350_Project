@@ -22,9 +22,6 @@ library(tidyverse)
 # 1. How does AlcoholDay compare between Married and NeverMarried (Or any two MaritalStatus groups) across Race1
 
 ```{r}
-library(NHANES)
-library(dplyr)
-library(ggplot2)
 names(NHANES)
 head(NHANES)
 
