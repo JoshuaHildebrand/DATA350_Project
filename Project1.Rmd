@@ -122,6 +122,7 @@ NHANES_t |>
 ```
 
 -   Since the distributions are not normal, robust statistics are appropriate for better understanding the distributions.
+  - Median and interquartile range are used to accurately compare the spread of testosterone data by age group overtime.
 
 ## Median Testosterone by Age Across BMI WHO groups.
 
@@ -149,6 +150,8 @@ ggplot(NHANES_t2, aes(x = age_group, y = medT))+
   theme_bw()
 
 ```
+- Age is grouped into approximately twenty year increments starting at the first age recorded for testosterone which is six years
+
 # 3. How does poverty ratio relate to BMI and cholesterol levels across races?
 ```{r}
 # Filter to adults in 2011_12 with complete data for variables of interest.
