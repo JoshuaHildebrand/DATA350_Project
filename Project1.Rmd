@@ -158,7 +158,7 @@ nhanes_clean <- NHANESraw |>
   select(ID, Race3, Poverty, BMI, TotChol) |> 
   na.omit()
 ```
-# Poverty vs BMI by Race
+## Poverty vs BMI faceted by Race
 ```{r, fig.width=8}
 # Race3 distribution
 ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
@@ -166,12 +166,12 @@ ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
   geom_smooth(se = TRUE, color = "black") +
   facet_wrap(~ Race3) +
   labs(title = "Relationship Between Poverty Ratio and BMI Across Race",
-    x = "Poverty Ratio", y = "Body Mass Index (BMI)", 
+    x = "Poverty Ratio", y = "Body Mass Index (BMI)", color = "Race Category", 
     caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). This plot shows how poverty ratio (income relative to the poverty line) relates to BMI across racial groups. Most participants fall between poverty ratios of 0–2 and BMI values of 20–40. Trend lines are mostly flat, showing little association between income and BMI. The confidence intervals are narrow for most groups, indicating consistent patterns, but noticeably wider for the “Other” category due to smaller sample size.", width=100)
   ) 
 ```
 
-# Poverty vs Cholesterol by Race
+## Poverty vs Cholesterol faceted by Race
 ```{r, fig.width=8}
 # Race3 distribution
 ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
@@ -179,10 +179,11 @@ ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
   labs(
     title = "Total Cholesterol by Race and Poverty Ratio Groups",
-    x = "Race Category", y = "Total Cholesterol (mmol/L)", 
+    x = "Race Category", y = "Total Cholesterol (mmol/L)", color = "Race Category", 
        caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). Distribution of total cholesterol (mmol/L) across racial groups. Values cluster around 5 mmol/L, with small variations in median and spread. White and Black groups have denser samples, while Hispanic participants show greater variability.", width=110)
   )
 ```
+
 - To analyze the relationship between poverty and health outcomes, we filtered the data to include only adults (age 18+) with complete data on race, poverty ratio, BMI and cholesterol. BMI and cholesterol are key indicators of overall health that can reflect how socioeconomic factors can influence physical health across populations. Since there were two continuous variables, a scatter plot with a smoothing line, faceted by race, was used to visualize the relationship to show whether BMI trends differ across racial groups and whether poverty predicts BMI. From the plot, most participants cluster around a poverty ratio between 0–2 and BMI values between 20–40. The trend lines are relatively flat, suggesting no strong overall correlation between income and BMI. Most groups stayed relatively consistent around a BMI of 30, while the Mexican group stayed consistent around a BMI of 25. The Other category shows more fluctuation and higher degree of uncertainty according to the confidence interval. For the cholesterol plot, a jitter plot overlapping with a boxplot was used because the variables are continuous, and this was able to show both the distribution of values, the spread, and median for each group. The White and Black groups have the largest sample sizes, which explains their denser clusters. Median cholesterol values are fairly similar across races, clustering around 5 mmol/L, though the Other group’s median appears slightly lower. Hispanic participants show the widest spread (largest IQR), suggesting more variation in cholesterol levels, while Mexican and Asian groups have smaller spreads. Overall, cholesterol levels are relatively consistent across racial groups. Together, these plots suggest that while BMI and cholesterol levels don’t differ drastically across income or race, small differences in variability may point to underlying social or health factors. Further analysis could investigate whether gender, age, or lifestyle factors such as diet and smoking explain these subtle patterns.
 
 
@@ -196,8 +197,10 @@ nhanes_clean2 <- NHANESraw |>
     SmokeAgeGroup = cut(SmokeAge, breaks=c(0,14,17,20,100), labels=c("<15","15-17","18-20","21+")),
     MarijAgeGroup = cut(AgeRegMarij, breaks=c(0,14,17,20,100), labels=c("<15","15-17","18-20","21+"), include.lowest = TRUE)
   )
+```
 
-# Smoking vs Education
+## Smoking vs Education faceted by Gender
+```{r, fig.width=8}
 ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Smoking by Education and Gender",
@@ -205,7 +208,7 @@ ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
        caption = str_wrap("Source: NHANESraw. Age participants began smoking cigarettes regularly, grouped by education level and gender. Across both males and females, most started smoking between ages 15–17. The highest counts appear among those with a high school or some college education. College graduates also show smoking initiation around 15–17, but in smaller numbers. Males generally have higher counts, likely due to a larger sample size.", width=80)) + coord_flip()
 ```
 
-# Marijuana vs Education faceted by Gender
+## Marijuana vs Education faceted by Gender
 ```{r, fig.width=8}
 ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
