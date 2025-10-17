@@ -114,7 +114,7 @@ ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) +
 
 - Cleaning the data requires selecting the variables Testosterone, Age, Gender, and BMI_WHO. Where Testosterone variable is total testosterone in nanograms per deciliter for participants aged 6 years or older for the years 2011-2012. Age is the age of the participant in 2011-2012, subjects who were 80 years or older were recorded as 80. BMI WHO is the body mass index as categorized by the World Health Organization as 12.0-18.4 (underweight), 18.5-24.9 (normal weight), 25-29.9 (overweight), and 30 plus (Obese). The BMI categories were translated from being denoted as intervals to written as their names to be more accessible to viewers who do not have access to the data, however, the caption contains the details for their reference. Then the data set was filtered for to include on the male gender to restrict the data to just one level of gender. Further analysis should explore testosterone across all genders, however, this focuses on males to avoid confounding influence. The first step of illustrating the answer to the guiding question is to plot the distributions of each BMI group's testosterone over age to understand the concentration and spread of the data.
 
-```{r}
+```{r, fig.width = 8}
 NHANES_t <- NHANESraw |>
   select('Testosterone', 'Age', 'Gender','BMI_WHO') |>
   mutate(BMI_WHO = case_when(
@@ -131,7 +131,7 @@ NHANES_t |>
   geom_point(aes(col = BMI_WHO), size = 0.65)+
   facet_wrap(~BMI_WHO) +
   labs(title = 'Testosterone vs Age', y = 'Testosterone (ng/dL)',
-       col = 'BMI WHO', caption = 'Source: NHANESraw dataset') + 
+       col = 'BMI WHO', caption = str_wrap('Source: NHANESraw dataset, BMI WHO Categorized: 12.0-18.4 (underweight), 18.5-24.9 (normal weight), 25-29.9 (overweight), and 30 plus (Obese)', width = 100)) + 
   theme_bw()
 ```
 
