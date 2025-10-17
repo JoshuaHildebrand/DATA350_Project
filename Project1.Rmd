@@ -182,7 +182,7 @@ ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
 ```
 
 # 4. To what extent is education associated with the age when participants first begin smoking or using marijuana regularly, and does this vary by gender?
-```{r, fig.width=8}}
+```{r, fig.width=8}
 # Filtering data 
 nhanes_clean2 <- NHANESraw |> 
   select(ID, Age, Gender, SmokeAge, AgeRegMarij, Education) |> 
@@ -201,7 +201,7 @@ ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
 ```
 
 # Marijuana vs Education faceted by Gender
-```{r, fig.width=8}}
+```{r, fig.width=8}
 ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Marijuana Use by Education and Gender",
