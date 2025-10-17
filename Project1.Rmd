@@ -40,8 +40,9 @@ ggplot(nhanes_5,aes(x = LogAlc, fill = MaritalStatus2)) +
   labs(title = "Distribution of Estimated Number of Days Per Year Participants Drank
        Alcohol by Race and Marriage Status", 
        x = "Estimated Number of Days Drinking Per Year (log)", 
-       y = "Density", fill = "Marital Status") +  
-  theme(plot.title = element_text(size = 12))+
+       y = "Density", fill = "Marital Status",
+       caption = "Source: NHANESraw dataset") +  
+  theme(plot.title = element_text(size = 12, hjust = 0.8))+
   theme_bw()
 ```
 ```{r}
@@ -63,20 +64,28 @@ ggplot(summary_stats, aes(x = Race3, y = mean_days, fill = MaritalStatus2)) +
                 position = position_dodge(0.8), width = 0.2) +
   geom_point(aes(y = median_days), 
              position = position_dodge(0.8), size = 2, color = "black") +
-  labs(title = "Mean Alcohol Days (bars) vs Median (black dot)",
-       subtitle = "Error bars show standard error",
-       x = "Race", y = "Drinking Days per Year") +
+  labs(title = "Mean Alcoholic Beverages Consumed in 2011 by Race (bars) vs Median (black dot)",
+       x = "Race", y = "Drinking Days per Year", fill = "Marital Status", 
+       caption = "Error bars show standard error. Source: NHANESraw dataset") +
   theme_bw()
 ```
 ```{r}
-# Still working on this one, wanted to visualize marriage statistics by race to get more context for graphs 
 pie<- nhanes_5|>
-  count(Race3,MaritalStatus2, name = "count")
-ggplot(data = pie, aes(x = "", y = count, fill = MaritalStatus2)) + 
-    geom_bar(stat = "identity", position = position_fill()) +
+  count(Race3,MaritalStatus2, name = "count")|>
+  group_by(Race3)|>
+  mutate(percentage = round(count / sum(count)*100, digits = 1))|>
+  ungroup()
+ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) + 
+    geom_bar(stat = "identity", position = position_fill(), 
+             width = 1, color = "white") +
     geom_text(aes(label = count), position = position_fill(vjust = 0.5)) +
-    coord_polar(theta = "y") +
-    facet_wrap(~ Race3)+ theme_bw()
+    geom_text(aes(label = paste0("\n","\n","(",percentage,"%)")), position = position_fill(vjust = 0.5), size = 2.9)+
+    coord_polar("y", start = 0)+
+    facet_wrap(~ Race3)+labs(title = "Marital Status by Race", 
+                             fill = "Marital Status", 
+                             caption = "Source: NHANESraw dataset")+ 
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme_void()+theme(plot.title = element_text(hjust = 0.5))
 ```
 
 # 2. What is the distribution of testosterone in the data set over age and how does it vary across BMI groups?
