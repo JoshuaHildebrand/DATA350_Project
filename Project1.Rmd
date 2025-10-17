@@ -165,7 +165,7 @@ ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
   facet_wrap(~ Race3) +
   labs(title = "Relationship Between Poverty Ratio and BMI Across Race",
     x = "Poverty Ratio", y = "Body Mass Index (BMI)", 
-    caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). This graph shows how poverty ratio (income compared to the poverty line) relates to BMI across different races. Most people fall between a poverty ratio of 0–2 and BMI values of 20–40. Trend lines are mostly flat, indicating little overall relationship between income and BMI. White participants show a slight decrease in BMI with higher income, Black participants show a slight increase, Mexican and Hispanic groups remain around BMI 30, and the 'Other' group has more variation due to smaller sample size.", width=100)
+    caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). This plot shows how poverty ratio (income relative to the poverty line) relates to BMI across racial groups. Most participants fall between poverty ratios of 0–2 and BMI values of 20–40. Trend lines are mostly flat, showing little association between income and BMI. The confidence intervals are narrow for most groups, indicating consistent patterns, but noticeably wider for the “Other” category due to smaller sample size.", width=100)
   ) 
 ```
 # Poverty vs Cholesterol by Race
@@ -177,7 +177,7 @@ ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
   labs(
     title = "Total Cholesterol by Race and Poverty Ratio Groups",
     x = "Race Category", y = "Total Cholesterol (mmol/L)", 
-       caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). This plot shows the distribution of total cholesterol levels (mmol/L) across racial groups in the 2011–2012 NHANES data. Each point represents an individual, and the boxplots show the median and variability within each group. Most cholesterol values cluster around 5 mmol/L, with fewer observations below 3 or above 8. The White and Black groups have the largest sample sizes, which explains their denser clusters. Median cholesterol levels are fairly similar across races, though the “Other” group’s median appears slightly lower. Hispanic participants show the widest spread (largest IQR), suggesting more variation in cholesterol levels, while Mexican and Asian groups have smaller spreads. Overall, cholesterol levels are relatively consistent across racial groups, with only small differences in variability and center.", width=110)
+       caption = str_wrap("Source: NHANESraw 2011–2012 (adults 18+). Distribution of total cholesterol (mmol/L) across racial groups. Values cluster around 5 mmol/L, with small variations in median and spread. White and Black groups have denser samples, while Hispanic participants show greater variability.", width=110)
   )
 ```
 
@@ -197,7 +197,7 @@ ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Smoking by Education and Gender",
        x="Education Level", y="Number of Participants", fill="Age Group", 
-       caption = str_wrap("Source: NHANESraw. This graph shows the age participants began smoking regularly, grouped by education level and gender. Across both males and females, most started smoking between ages 15–17, followed by <15. The highest counts appear among those with a high school or some college education. College graduates also show smoking initiation around 15–17, but in smaller numbers. Males generally have higher counts, likely due to a larger sample size. Overall, smoking most often begins in mid-teen years, with those starting earlier most represented among participants with high school or some college education.", width=80)) + coord_flip()
+       caption = str_wrap("Source: NHANESraw. Age participants began smoking regularly, grouped by education level and gender. Across both males and females, most started smoking between ages 15–17. The highest counts appear among those with a high school or some college education. College graduates also show smoking initiation around 15–17, but in smaller numbers. Males generally have higher counts, likely due to a larger sample size.", width=80)) + coord_flip()
 ```
 
 # Marijuana vs Education faceted by Gender
@@ -206,5 +206,5 @@ ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Marijuana Use by Education and Gender",
        x="Education Level", y="Number of Participants", fill="Age Group", 
-       caption = str_wrap("Source: NHANESraw. This graph shows the age participants began using marijuana, grouped by education level and separated by gender. Most participants begin using marijuana between ages 15 and 17, with the highest counts among those with a high school education or some college. Male participants generally have higher counts, particularly among those in high school, while females show the highest counts in the 15–17 age group for both high school and some college. For college graduates, initiation is slightly later, peaking around 18–20. Overall, marijuana use typically starts in mid-teenage years, and the highest representation is among individuals with high school or some college education, similar to patterns seen for cigarette smoking.", width=80)) + coord_flip()
+       caption = str_wrap("Source: NHANESraw. Age participants began using marijuana, grouped by education level and separated by gender. Similar to previous graph where most participants begin using between ages 15 and 17, with the highest counts among those with a high school education or some college. Male participants generally have higher counts, particularly among those in high school, while females show the highest counts in the 15–17 age group for both high school and some college. For college graduates, initiation is slightly later, peaking around 18–20.", width=80)) + coord_flip()
 ```
