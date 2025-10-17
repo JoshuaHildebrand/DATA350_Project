@@ -46,7 +46,7 @@ ggplot(nhanes_5,aes(x = LogAlc, fill = MaritalStatus2)) +
   theme_bw()
 ```
 
-- To visualize the distributions of days per year drinking between the two marital status groups by race, we used six kernel density plots (one for each race category). By examining separate kernel density plots, we could identify differences in distributional patterns, such as skewness, variability, or the presence of multiple modes. We log-transformed the AlcoholYear variable to correct for right skewness and improve the interpretability of the density plots. When creating the KDE plots, we log-transformed the AlcoholYear data because it was a non-normal distribution that was skewed to the right. This transformation reduces skewness, allowing for a more symmetric distribution and improving the interpretability and comparability of the density estimates across groups. The distributions for "Asian", "Mexican", and "Other" participants showed bimodal patterns, while those for "Black", "White", and "Hispanic" groups largely overlapped.
+- To visualize the distributions of days per year drinking between the two marital status groups by race, we used six kernel density plots (one for each race category). By examining separate kernel density plots, we could identify differences in distributional patterns, such as skewness, variability, or the presence of multiple modes. We log-transformed the AlcoholYear variable to correct for right skewness and improve the interpretability of the density plots. When creating the KDE plots, we log-transformed the AlcoholYear data because it was a non-normal distribution that was skewed to the right. This transformation reduces skewness, allowing for a more symmetric distribution and improving the interpretability and comparability of the density estimates across groups. The distributions for "Asian", "Mexican", and "Other" participants exhibited bimodal patterns, whereas those for the "Black", "White", and "Hispanic" groups largely overlapped.
 
 ```{r, fig.width = 8}
 # Calculate summary statistics
@@ -61,12 +61,6 @@ summary_stats<-nhanes_5 |>
     LCI = mean_days - se,
     UCI = mean_days + se,
   )
-summary_table <- summary_stats |>
-  select(Race3, MaritalStatus2, mean_days, median_days, se, LCI, UCI) |>
-  kable(digits = 2, 
-        col.names = c("Race", "Marital Status", "Mean", "Median", "SE", "Lower CI", "Upper CI"),
-        caption = "Summary Statistics for Alcohol Consumption Days")
-summary_table
 
 # Plot means with error bars
 ggplot(summary_stats, aes(x = Race3, y = mean_days, fill = MaritalStatus2)) +
@@ -81,6 +75,12 @@ ggplot(summary_stats, aes(x = Race3, y = mean_days, fill = MaritalStatus2)) +
   guides(fill = guide_legend(override.aes = list(shape = NA))) +
   theme(plot.title = element_text(hjust = 0.2))+
   theme_bw()
+summary_table <- summary_stats |>
+  select(Race3, MaritalStatus2, mean_days, median_days, se, LCI, UCI) |>
+  kable(digits = 2, 
+        col.names = c("Race", "Marital Status", "Mean", "Median", "SE", "Lower CI", "Upper CI"),
+        caption = "Summary Statistics for Alcohol Consumption Days")
+summary_table
 ```
 - Because log-transformed KDE plots do not convey specific numerical values such as means or medians, we also created a bar plot with error bars to better visualize the central tendencies and variability of drinking frequency by marital status across race groups. We calculated the mean, median, and 95% confidence intervals of the data, grouped by race and marital status. Because most participants reported drinking on the lower end of the 365-day range, the means were disproportionately influenced by a small number of heavy drinkers. As a result, there was a substantial gap between the mean and median values. This pattern is clearly visible in the graph, where median drinking days for each racial group do not exceed 24 days per year, while mean values reach as high as ~87 days per year due to the mean’s sensitivity to outliers. Interestingly, the median number of drinking days for "White" participants was 24 in both marital status groups, while for "Hispanic" participants it was 12 in both. For all other racial groups, the median reported drinking days were noticeably higher for the Not Married category. “Other” had the lowest median drinking days for the Married category at only 3 drinks. Mean drinking days for the “Asian”, “Black”, “Hispanic”, and “Other” racial groups were higher for the Not Married category, while being the same for each status at ~45 drinks for the Mexican category. Interestingly, the “White” category was the only racial group that had higher average drinking days for “Married” compared to Not Married. These results show the sensitivity of mean and median to outliers and underscore the importance of log-transforming the data to visualize distribution in the KDE plots. 
 ```{r, fig.width = 8}
@@ -101,7 +101,6 @@ ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) +
                                                 'Married' and 'Not Married'. The size of each slice reflects the proportion of individuals within that race who fall into each marital status category, with counts both the number of participants in each group and the percentage of the whole. The 'Other' race category has the fewest participants, with only 119 responses. The 'White' race category has the highest ratio of 'Married' to 'Not Married', while 'Black' has the lowest. Source: NHANESraw dataset", width = 100))+ 
   theme(plot.title = element_text(hjust = 0.5))+
   theme_void()+theme(plot.title = element_text(hjust = 0.5))
-summary(nhanes_5$MaritalStatus2)
 ```
 - We also visualized the distribution of marital status across racial groups using faceted pie charts. Each chart represents one race category from the NHANES dataset, with slices corresponding to "Married" and "Not Married" participants. The size of each slice reflects the relative proportion of individuals within that race who fall into each marital status group. This visualization helps compare how marriage rates differ across races – for example, showing that “White” participants have the highest proportion of married individuals, while “Black” participants have the lowest. 
 
