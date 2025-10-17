@@ -41,7 +41,7 @@ ggplot(nhanes_5,aes(x = LogAlc, fill = MaritalStatus2)) +
        Alcohol by Race and Marriage Status", 
        x = "Estimated Number of Days Drinking Per Year (log)", 
        y = "Density", fill = "Marital Status",
-       caption = "Source: NHANESraw dataset") +  
+       caption = str_wrap("This graph shows the KDE plots of the log-transformed self-reported consumption of alcoholic beverages in the past year for participants across the Race 3 variable for the 2011-2012 survey year. Log transformation was applied to normalize the distribution and improve visualization clarity by reducing the influence of high outliers. Only participants 20+ years old were included. Marital status is split into two variables: 'Married' and 'Not Married'. The 'Asian', 'Mexican' and 'Other' racial group distributions are bimodal, while 'Hispanic', 'White' and 'Black' racial groups are multimodal. Source: NHANESraw dataset", width = 100)) +  
   theme(plot.title = element_text(size = 12, hjust = 0.8))+
   theme_bw()
 ```
@@ -62,11 +62,13 @@ ggplot(summary_stats, aes(x = Race3, y = mean_days, fill = MaritalStatus2)) +
   geom_col(position = position_dodge(0.9), alpha = 0.7) +
   geom_errorbar(aes(ymin = LCI, ymax = UCI),
                 position = position_dodge(0.8), width = 0.2) +
-  geom_point(aes(y = median_days), 
+  geom_point(aes(y = median_days, shape = MaritalStatus2), 
              position = position_dodge(0.8), size = 2, color = "black") +
-  labs(title = "Mean Alcoholic Beverages Consumed in 2011 by Race (bars) vs Median (black dot)",
-       x = "Race", y = "Drinking Days per Year", fill = "Marital Status", 
-       caption = "Error bars show standard error. Source: NHANESraw dataset") +
+  labs(title = "Mean Number of Days Consuming Alcoholic Beverages in the Past Year by Race vs Median",
+       x = "Race", y = "Drinking Days per Year", fill = "Drinking Days Per Year (Mean)", shape = "Drinking Days Per Year (Median)", 
+       caption = str_wrap( "This graph compares the means and medians of the self-reported amount of alcoholic beverages consumed per year across the Race3 variable. The bars show means (with 95% CIs) and the shapes show medians for drinking days per year. The 'White' race category exhibits nearly identical median drinking days despite differences in the mean, whereas the 'Other' category shows substantial variation in both the mean and median, with differences in the median being significantly higher. Source: NHANESraw dataset"), width = 200)+
+  guides(fill = guide_legend(override.aes = list(shape = NA))) +
+  theme(plot.title = element_text(hjust = 0.2))
   theme_bw()
 ```
 ```{r}
@@ -78,12 +80,12 @@ pie<- nhanes_5|>
 ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) + 
     geom_bar(stat = "identity", position = position_fill(), 
              width = 1, color = "white") +
-    geom_text(aes(label = count), position = position_fill(vjust = 0.5)) +
-    geom_text(aes(label = paste0("\n","\n","(",percentage,"%)")), position = position_fill(vjust = 0.5), size = 2.9)+
+    geom_text(aes(label = count), position = position_fill(vjust = 0.5), size = 3.5) +
+    geom_text(aes(label = paste0("\n","\n","(",percentage,"%)")), position = position_fill(vjust = 0.5), size = 2.4)+
     coord_polar("y", start = 0)+
     facet_wrap(~ Race3)+labs(title = "Marital Status by Race", 
                              fill = "Marital Status", 
-                             caption = "Source: NHANESraw dataset")+ 
+                             caption = str_wrap("This is a faceted pie chart showing the distribution of marital status across the Race3 variable. Each pie represents one race category, with slices corresponding to one of two marital status groups. The size of each slice reflects the proportion of individuals within that race who fall into each marital status category, with counts both the number of participants in each group and the percentage of the whole. The 'Other' race category is evenly split among 'Married' and 'Not Married', but also has the fewest respondents. The 'Mexican' category has the highest ratio of 'Married' to 'Not Married', while 'Black' has the lowest. Source: NHANESraw dataset", width = 100))+ 
   theme(plot.title = element_text(hjust = 0.5))+
   theme_void()+theme(plot.title = element_text(hjust = 0.5))
 ```
