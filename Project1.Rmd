@@ -20,6 +20,7 @@ library(tidyverse)
 ## 1. How does AlcoholDay compare between Married and Divorced marital status groups across Race3
 
 - To analyze the relationship between marital status and alcohol consumption, we filtered the dataset to include only participants aged 20 and older from the 2011–2012 survey cycle. We then mutated the MaritalStatus variable to create MaritalStatus2. This new variable grouped the marriage statuses “NeverMarried”, “LivePartner” and “Divorced” into “Not Married”. Although the marriage status “Widowed” could technically be included in the “Not Married” variable,  it was excluded due to its distinct demographic characteristics which could confound the analysis. Because widowed individuals tend to differ substantially in age, life stage, and social context from those who are single, divorced, or cohabiting, including them in the “Not Married” category could obscure meaningful differences in drinking behavior by introducing potential exogenous variables (i.e. loneliness, grief). However, further analysis could be conducted to assess how including the “Widowed” category might affect the KDE distributions and whether its inclusion yields meaningful differences across racial groups. The “Married” category of MaritalStatus2 included only the “Married” variable. As a result, the “Married” and “Not Married” categories of MaritalStatus2 consisted of 1,894 and 1,656 participants, respectively. The reason for using Race3 as the race variable instead of Race1 was because it included an “Asian” category. 
+
 ```{r, fig.width = 8}
 nhanes_5 <- NHANESraw |>
   filter(SurveyYr == "2011_12" & Age >= 20)|>
@@ -80,7 +81,9 @@ summary_table <- summary_stats |>
         caption = "Summary Statistics for Alcohol Consumption Days")
 summary_table
 ```
+
 - Because log-transformed KDE plots do not convey specific numerical values such as means or medians, we also created a bar plot with error bars to better visualize the central tendencies and variability of drinking frequency by marital status across race groups. We calculated the mean, median, and 95% confidence intervals of the data, grouped by race and marital status. Because most participants reported drinking on the lower end of the 365-day range, the means were disproportionately influenced by a small number of heavy drinkers. As a result, there was a substantial gap between the mean and median values. This pattern is clearly visible in the graph, where median drinking days for each racial group do not exceed 24 days per year, while mean values reach as high as ~87 days per year due to the mean’s sensitivity to outliers. Interestingly, the median number of drinking days for "White" participants was 24 in both marital status groups, while for "Hispanic" participants it was 12 in both. For all other racial groups, the median reported drinking days were noticeably higher for the Not Married category. “Other” had the lowest median drinking days for the Married category at only 3 drinks. Mean drinking days for the “Asian”, “Black”, “Hispanic”, and “Other” racial groups were higher for the Not Married category, while being the same for each status at ~45 drinks for the Mexican category. Interestingly, the “White” category was the only racial group that had higher average drinking days for “Married” compared to Not Married. These results show the sensitivity of mean and median to outliers and underscore the importance of log-transforming the data to visualize distribution in the KDE plots. 
+
 ```{r, fig.width = 8}
 pie<- nhanes_5|>
   count(Race3,MaritalStatus2, name = "count")|>
@@ -100,6 +103,7 @@ ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) +
   theme(plot.title = element_text(hjust = 0.5))+
   theme_void()+theme(plot.title = element_text(hjust = 0.5))
 ```
+
 - We also visualized the distribution of marital status across racial groups using faceted pie charts. Each chart represents one race category from the NHANES dataset, with slices corresponding to "Married" and "Not Married" participants. The size of each slice reflects the relative proportion of individuals within that race who fall into each marital status group. This visualization helps compare how marriage rates differ across races – for example, showing that “White” participants have the highest proportion of married individuals, while “Black” participants have the lowest. 
 
 ## 2. What is the distribution of testosterone in the data set over age and how does it vary across BMI groups?
