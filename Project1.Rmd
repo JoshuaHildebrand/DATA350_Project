@@ -1,7 +1,7 @@
 ---
-title: "Project1"
+title: "Investigating Health and Lifestyle Variables in the NHANESraw Dataset"
 output: html_document
-date: "2025-10-02"
+date: "2025-10-17"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,9 +17,7 @@ library(dplyr)
 library(tidyverse)
 ```
 
-# Draft Set of Questions
-
-# 1. How does AlcoholDay compare between Married and Divorced marital status groups across Race3
+## 1. How does AlcoholDay compare between Married and Divorced marital status groups across Race3
 
 - To analyze the relationship between marital status and alcohol consumption, we filtered the dataset to include only participants aged 20 and older from the 2011–2012 survey cycle. We then mutated the MaritalStatus variable to create MaritalStatus2. This new variable grouped the marriage statuses “NeverMarried”, “LivePartner” and “Divorced” into “Not Married”. Although the marriage status “Widowed” could technically be included in the “Not Married” variable,  it was excluded due to its distinct demographic characteristics which could confound the analysis. Because widowed individuals tend to differ substantially in age, life stage, and social context from those who are single, divorced, or cohabiting, including them in the “Not Married” category could obscure meaningful differences in drinking behavior by introducing potential exogenous variables (i.e. loneliness, grief). However, further analysis could be conducted to assess how including the “Widowed” category might affect the KDE distributions and whether its inclusion yields meaningful differences across racial groups. The “Married” category of MaritalStatus2 included only the “Married” variable. As a result, the “Married” and “Not Married” categories of MaritalStatus2 consisted of 1,894 and 1,656 participants, respectively. The reason for using Race3 as the race variable instead of Race1 was because it included an “Asian” category. 
 ```{r, fig.width = 8}
@@ -104,7 +102,7 @@ ggplot(pie, aes(x = "", y = count, fill = MaritalStatus2)) +
 ```
 - We also visualized the distribution of marital status across racial groups using faceted pie charts. Each chart represents one race category from the NHANES dataset, with slices corresponding to "Married" and "Not Married" participants. The size of each slice reflects the relative proportion of individuals within that race who fall into each marital status group. This visualization helps compare how marriage rates differ across races – for example, showing that “White” participants have the highest proportion of married individuals, while “Black” participants have the lowest. 
 
-# 2. What is the distribution of testosterone in the data set over age and how does it vary across BMI groups?
+## 2. What is the distribution of testosterone in the data set over age and how does it vary across BMI groups?
 
 ## Testosterone by Age Across BMI WHO Groups for Males
 
@@ -164,7 +162,7 @@ ggplot(NHANES_t2, aes(x = age_group, y = medT))+
 ```
 - Age is grouped into approximately twenty year increments starting at the first age recorded for testosterone which is six years
 
-# 3. How does poverty ratio relate to BMI and cholesterol levels across races?
+## 3. How does poverty ratio relate to BMI and cholesterol levels across races?
 ```{r}
 # Filter to adults in 2011_12 with complete data for variables of interest.
 nhanes_clean <- NHANESraw |> 
@@ -201,7 +199,7 @@ ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
 - To analyze the relationship between poverty and health outcomes, we filtered the data to include only adults (age 18+) with complete data on race, poverty ratio, BMI and cholesterol. BMI and cholesterol are key indicators of overall health that can reflect how socioeconomic factors can influence physical health across populations. Since there were two continuous variables, a scatter plot with a smoothing line, faceted by race, was used to visualize the relationship to show whether BMI trends differ across racial groups and whether poverty predicts BMI. From the plot, most participants cluster around a poverty ratio between 0–2 and BMI values between 20–40. The trend lines are relatively flat, suggesting no strong overall correlation between income and BMI. Most groups stayed relatively consistent around a BMI of 30, while the Mexican group stayed consistent around a BMI of 25. The Other category shows more fluctuation and higher degree of uncertainty according to the confidence interval. For the cholesterol plot, a jitter plot overlapping with a boxplot was used because the variables are continuous, and this was able to show both the distribution of values, the spread, and median for each group. The White and Black groups have the largest sample sizes, which explains their denser clusters. Median cholesterol values are fairly similar across races, clustering around 5 mmol/L, though the Other group’s median appears slightly lower. Hispanic participants show the widest spread (largest IQR), suggesting more variation in cholesterol levels, while Mexican and Asian groups have smaller spreads. Overall, cholesterol levels are relatively consistent across racial groups. Together, these plots suggest that while BMI and cholesterol levels don’t differ drastically across income or race, small differences in variability may point to underlying social or health factors. Further analysis could investigate whether gender, age, or lifestyle factors such as diet and smoking explain these subtle patterns.
 
 
-# 4. To what extent is education associated with the age when participants first begin smoking or using marijuana regularly, and does this vary by gender?
+## 4. To what extent is education associated with the age when participants first begin smoking or using marijuana regularly, and does this vary by gender?
 ```{r, fig.width=8}
 # Filtering data 
 nhanes_clean2 <- NHANESraw |> 
