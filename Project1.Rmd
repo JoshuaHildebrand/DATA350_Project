@@ -153,7 +153,7 @@ ggplot(NHANES_t2, aes(x = age_group, y = medT))+
 # Filter to adults in 2011_12 with complete data for variables of interest.
 nhanes_clean <- NHANESraw |> 
   filter(SurveyYr == "2011_12", Age >= 18) |> 
-  select(ID, Race1, Race3, Poverty, BMI, BPSysAve, BPDiaAve, TotChol, Age, Gender) |> 
+  select(ID, Race1, Race3, Poverty, BMI, TotChol, Age, Gender) |> 
   na.omit()
 ```
 # Poverty vs BMI by Race
