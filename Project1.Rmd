@@ -174,9 +174,9 @@ nhanes_clean <- NHANESraw |>
   select(ID, Race3, Poverty, BMI, TotChol) |> 
   na.omit()
 ```
-## Poverty vs BMI faceted by Race
+
 ```{r, fig.width=8}
-# Race3 distribution
+## Poverty vs BMI faceted by Race
 ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
   geom_point(alpha = 0.5, aes(color = Race3), size = 0.6) +
   geom_smooth(se = TRUE, color = "black") +
@@ -187,9 +187,8 @@ ggplot(nhanes_clean, aes(x = Poverty, y = BMI)) +
   ) 
 ```
 
-## Poverty vs Cholesterol faceted by Race
 ```{r, fig.width=8}
-# Race3 distribution
+## Poverty vs Cholesterol faceted by Race
 ggplot(nhanes_clean, aes(x = Race3, y = TotChol, color = Race3)) +
   geom_jitter(alpha = 0.3, width = 0.2, size = 0.6) +
   geom_boxplot(alpha = 0.4, outlier.shape = NA) +
@@ -215,8 +214,8 @@ nhanes_clean2 <- NHANESraw |>
   )
 ```
 
-## Smoking vs Education faceted by Gender
 ```{r, fig.width=8}
+## Smoking vs Education faceted by Gender
 ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Smoking by Education and Gender",
@@ -224,8 +223,8 @@ ggplot(nhanes_clean2, aes(x=Education, fill=SmokeAgeGroup)) +
        caption = str_wrap("Source: NHANESraw. Age participants began smoking cigarettes regularly, grouped by education level and gender. Across both males and females, most started smoking between ages 15–17. The highest counts appear among those with a high school or some college education. College graduates also show smoking initiation around 15–17, but in smaller numbers. Males generally have higher counts, likely due to a larger sample size.", width=80)) + coord_flip()
 ```
 
-## Marijuana vs Education faceted by Gender
 ```{r, fig.width=8}
+## Marijuana vs Education faceted by Gender
 ggplot(nhanes_clean2, aes(x=Education, fill=MarijAgeGroup)) +
   geom_bar(position="dodge") + facet_wrap(~Gender) +
   labs(title="Age Started Marijuana Use by Education and Gender",
